@@ -1,8 +1,13 @@
 import React from "react";
+import TopBar from "../components/TopBar";
+import "../assets/style/HomePage.css"
 
 function HomePage() {
   return (
-    <div>Главная страница</div>
+    <div className="home">
+      <TopBar />
+      {/* <div>khgjksldf</div> */}
+    </div>
   );
 }
 
