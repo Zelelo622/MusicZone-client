@@ -3,13 +3,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 28px;
+  margin-bottom: 48px;
+  padding-left: 32px;
 }
 
 .topbar__search {
   display: flex;
   align-items: center;
-  margin-left: 32px;
   border-radius: 10px;
   background-color: #fff;
 }

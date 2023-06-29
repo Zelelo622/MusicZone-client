@@ -9,7 +9,7 @@ function App() {
     <BrowserRouter>
       <main className="main">
         <Container>
-          <div className="main-content">
+          <div className="main__content">
             <SideBar />
             <AppRouter />
           </div>

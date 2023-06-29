@@ -19,7 +19,7 @@ function TopBar() {
         <div className="topbar__btns">
           <button className="topbar__btn">Войти</button>
           <button className="topbar__btn topbar__btn-border">
-            Зарегестрироваться
+            Зарегистрироваться
           </button>
         </div>
       </nav>

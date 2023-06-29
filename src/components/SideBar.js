@@ -12,6 +12,8 @@ function SideBar() {
   };
 
   // TODO: у плейлистов изменить ссылки
+
+  // TODO: сделайть объекты для плейлистов
   return (
     <>
       <nav className="sidebar">
