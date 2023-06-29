@@ -1,11 +1,88 @@
 .player {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   position: fixed;
   width: 100%;
   max-width: 1420px;
   margin: 0 auto;
   bottom: 0;
   z-index: 101;
-  background-color: brown;
+  background-color: #171719cc;
+}
+
+.player__info {
+  display: flex;
+  align-items: center;
+  margin-left: 16px;
+}
+
+.player__img {
+  width: 63px;
+  width: 63px;
+}
+
+.player__name {
+  margin-left: 16px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.player__name-innerwrap {
+}
+
+.player__name-link {
+  transition: all;
+}
+.player__name-link:hover {
+  color: #fc0;
+}
+
+.player__artists {
+}
+
+.player__artists-link {
+  color: #fcfcfca6;
+  transition: all;
+}
+.player__artists-link:hover {
+  color: #fc0;
+  text-decoration: underline;
+}
+
+.player__instr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.player__instr-inner {
+  display: flex;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.player__instr-img {
+  width: 24px;
+  height: 24px;
+  margin-right: 32px;
+}
+.player__instr-img:last-child {
+  margin-right: 0;
+}
+
+.music-player {
+  margin-bottom: 20px;
+}
+
+.player__settings {
+  display: flex;
+  align-items: center;
+}
+
+.player__settings-img {
+  width: 24px;
+  height: 24px;
+  margin-right: 32px;
 }
