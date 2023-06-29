@@ -16,7 +16,7 @@ function SideBar() {
     <>
       <nav className="sidebar">
         <Link className="link" to={HOME_ROUTE}>
-          <div className="sidebar__logo">
+          <div className="sidebar__logo" onClick={() => handleLinkClick(HOME_ROUTE)}>
             <img className="sidebar__logo-img" src={Logo} alt="логотип" />
             <h1 className="sidebar__logo-title">MusicZone</h1>
           </div>

@@ -33,7 +33,7 @@ h1 {
 }
 
 .link {
-  transition: all 0.2s;
+  transition: all 0.1s;
 }
 .link:hover {
   opacity: 0.8;
