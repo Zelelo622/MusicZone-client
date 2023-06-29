@@ -5,10 +5,6 @@ import Playlists from "../components/Playlists";
 
 function HomePage() {
   return (
-    // <div className="home">
-    //   <TopBar />
-    //   <Playlists />
-    // </div>
     <>
       <TopBar />
       <Playlists />

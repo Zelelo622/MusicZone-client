@@ -3,6 +3,7 @@ import "../assets/style/SideBar.css";
 import Logo from "../assets/img/logo.svg";
 import { ALL_MUSIC_ROUTE, HOME_ROUTE } from "../utils/consts";
 import { Link } from "react-router-dom";
+import { playlists } from "../utils/objData";
 
 function SideBar() {
   const [activeLink, setActiveLink] = useState(HOME_ROUTE);
@@ -12,13 +13,14 @@ function SideBar() {
   };
 
   // TODO: у плейлистов изменить ссылки
-
-  // TODO: сделайть объекты для плейлистов
   return (
     <>
       <nav className="sidebar">
         <Link className="link" to={HOME_ROUTE}>
-          <div className="sidebar__logo" onClick={() => handleLinkClick(HOME_ROUTE)}>
+          <div
+            className="sidebar__logo"
+            onClick={() => handleLinkClick(HOME_ROUTE)}
+          >
             <img className="sidebar__logo-img" src={Logo} alt="логотип" />
             <h1 className="sidebar__logo-title">MusicZone</h1>
           </div>
@@ -52,29 +54,19 @@ function SideBar() {
         <div className="sidebar__content">
           <h3 className="sidebar__content-title">Мои плейлисты</h3>
           <ul className="sidebar__list">
-            <li className="sidebar__item-border sidebar__item">
-              <Link
-                className={`link ${
-                  activeLink === "playlist1" ? "is-active-link" : ""
-                }`}
-                to={ALL_MUSIC_ROUTE}
-                onClick={() => handleLinkClick("playlist1")}
-              >
-                Король и шут самое любимое
-              </Link>
-              <span></span>
-            </li>
-            <li className="sidebar__item-border sidebar__item">
-              <Link
-                className={`link ${
-                  activeLink === "playlist2" ? "is-active-link" : ""
-                }`}
-                to={ALL_MUSIC_ROUTE}
-                onClick={() => handleLinkClick("playlist2")}
-              >
-                Кино
-              </Link>
-            </li>
+            {playlists.map((playlists, index) => (
+              <li className="sidebar__item-border sidebar__item" key={index}>
+                <Link
+                  className={`link ${
+                    activeLink === "playlist1" ? "is-active-link" : ""
+                  }`}
+                  to={ALL_MUSIC_ROUTE}
+                  onClick={() => handleLinkClick("playlist1")}
+                >
+                  {playlists.title}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
       </nav>
