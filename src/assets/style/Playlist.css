@@ -1,5 +1,6 @@
 .playlists {
   margin-left: 32px;
+  padding-right: 10px;
   grid-column: 2; 
   grid-row: 2; 
 }

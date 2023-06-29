@@ -58,10 +58,10 @@ function SideBar() {
               <li className="sidebar__item-border sidebar__item" key={index}>
                 <Link
                   className={`link ${
-                    activeLink === "playlist1" ? "is-active-link" : ""
+                    activeLink === `playlist ${index}` ? "is-active-link" : ""
                   }`}
                   to={ALL_MUSIC_ROUTE}
-                  onClick={() => handleLinkClick("playlist1")}
+                  onClick={() => handleLinkClick(`playlist ${index}`)}
                 >
                   {playlists.title}
                 </Link>

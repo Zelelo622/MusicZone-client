@@ -8,12 +8,14 @@ function App() {
   return (
     <BrowserRouter>
       <main className="main">
-        <Container>
+        {/* <Container> */}
+        <div className="container">
           <div className="main__content">
             <SideBar />
             <AppRouter />
           </div>
-        </Container>
+        </div>
+        {/* </Container> */}
       </main>
     </BrowserRouter>
   );

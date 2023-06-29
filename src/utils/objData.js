@@ -9,4 +9,20 @@ export const playlists = [
     title: "Рок-хиты",
     imgPath: PlaylistPng,
   },
+  {
+    title: "Поп-хиты",
+    imgPath: PlaylistPng,
+  },
+  {
+    title: "Инди-хиты",
+    imgPath: PlaylistPng,
+  },
+  {
+    title: "Хип-хоп-хиты",
+    imgPath: PlaylistPng,
+  },
+  {
+    title: "Шансон-хиты",
+    imgPath: PlaylistPng,
+  },
 ];

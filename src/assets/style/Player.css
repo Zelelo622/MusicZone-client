@@ -1,0 +1,11 @@
+.player {
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  width: 100%;
+  max-width: 1420px;
+  margin: 0 auto;
+  bottom: 0;
+  z-index: 101;
+  background-color: brown;
+}

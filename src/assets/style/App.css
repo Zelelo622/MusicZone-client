@@ -40,3 +40,9 @@ h1 {
 .link:hover {
   opacity: 0.8;
 }
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0;
+}
