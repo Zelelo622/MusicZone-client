@@ -36,5 +36,5 @@ h1 {
   transition: all 0.2s;
 }
 .link:hover {
-  opacity: 0.4;
+  opacity: 0.8;
 }

@@ -52,3 +52,7 @@
   font-size: 18px;
   position: relative;
 }
+
+.is-active-link {
+  color: #6ad9d9 !important;
+}
