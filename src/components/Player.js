@@ -7,12 +7,13 @@ import { Link } from "react-router-dom";
 import { IconContext } from "react-icons";
 import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
 import { AiFillPlayCircle, AiFillPauseCircle } from "react-icons/ai";
-import track from "../assets/music/10 - Завтра война.mp3";
+import { music } from "../utils/objData";
 
 function Player() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
 
   useEffect(() => {
     const audioElement = document.getElementById("audio");
@@ -27,7 +28,11 @@ function Player() {
         );
       };
     }
-  }, []);
+  }, [currentTrackIndex]);
+
+  useEffect(() => {
+    setCurrentTime(0);
+  }, [currentTrackIndex]);
 
   const handleTimeUpdate = () => {
     setCurrentTime(document.getElementById("audio").currentTime);
@@ -48,6 +53,19 @@ function Player() {
     }
   };
 
+
+  const playNextTrack = () => {
+    setCurrentTrackIndex((prevIndex) =>
+      prevIndex === music.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const playPreviousTrack = () => {
+    setCurrentTrackIndex((prevIndex) =>
+      prevIndex === 0 ? music.length - 1 : prevIndex - 1
+    );
+  };
+
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60)
       .toString()
@@ -58,27 +76,29 @@ function Player() {
     return `${minutes}:${seconds}`;
   };
 
+  const currentTrack = music[currentTrackIndex];
+
   return (
     <>
       <div className="player">
         <div className="player__info">
-          <img className="player__img" src={CoverAlbumPng} alt="Обложка" />
+          <img className="player__img" src={currentTrack.imgPath} alt="Обложка" />
           <div className="player__name">
             <div className="player__name-innerwrap">
               <Link className="player__name-link" to="#">
-                Нам с тобой
+                {currentTrack.title}
               </Link>
             </div>
             <div className="player__artists">
               <Link className="player__artists-link" to="#">
-                Кино
+                {currentTrack.artist}
               </Link>
             </div>
           </div>
         </div>
         <div className="player__instr">
           <div className="player__instr-inner">
-            <button className="playButton">
+            <button className="playButton" onClick={playPreviousTrack}>
               <IconContext.Provider value={{ size: "3em", color: "#FCFCFC" }}>
                 <BiSkipPrevious />
               </IconContext.Provider>
@@ -96,7 +116,7 @@ function Player() {
                 </IconContext.Provider>
               </button>
             )}
-            <button className="playButton">
+            <button className="playButton" onClick={playNextTrack}>
               <IconContext.Provider value={{ size: "3em", color: "#FCFCFC" }}>
                 <BiSkipNext />
               </IconContext.Provider>
@@ -126,7 +146,7 @@ function Player() {
           />
         </div>
       </div>
-      <audio id="audio" src={track} />
+      <audio id="audio" src={currentTrack.soundPath} />
     </>
   );
 }
