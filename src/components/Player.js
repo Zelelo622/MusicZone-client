@@ -14,6 +14,11 @@ function Player() {
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const toggleFavorite = () => {
+    setIsFavorite(!isFavorite);
+  };
 
   useEffect(() => {
     const audioElement = document.getElementById("audio");
@@ -89,7 +94,11 @@ function Player() {
     <>
       <div className="player">
         <div className="player__info">
-          <img className="player__img" src={currentTrack.imgPath} alt="Обложка" />
+          <img
+            className="player__img"
+            src={currentTrack.imgPath}
+            alt="Обложка"
+          />
           <div className="player__name">
             <div className="player__name-innerwrap">
               <Link className="player__name-link" to="#">
@@ -145,12 +154,14 @@ function Player() {
           </div>
         </div>
         <div className="player__settings">
-          <img className="player__settings-img" src={FavoriteSvg} alt="Лайк" />
-          <img
-            className="player__settings-img"
-            src={VolumnSvg}
-            alt="Громкость"
-          />
+          <button
+            className={`player__settings-btn ${
+              isFavorite ? "player__settings-like" : "player__settings-fav"
+            }`}
+            onClick={toggleFavorite}
+          ></button>
+
+          <button className="player__settings-btn player__settings-vol"></button>
         </div>
       </div>
       <audio id="audio" src={currentTrack.soundPath} autoPlay />

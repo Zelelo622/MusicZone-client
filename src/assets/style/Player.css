@@ -112,7 +112,35 @@
 }
 
 .player__settings-img {
+  /* width: 24px;
+  height: 24px;
+  margin-right: 32px; */
+}
+
+.player__settings-btn {
+  border: none;
+  outline: none;
   width: 24px;
   height: 24px;
   margin-right: 32px;
+  padding: 20px;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: all 0.2s;
+}
+.player__settings-btn:hover {
+  opacity: 0.8;
+}
+
+.player__settings-fav {
+  background-image: url(../img/favorite-icon.svg);
+}
+
+.player__settings-like {
+  background-image: url(../img/favorite-like-icon.svg);
+}
+
+.player__settings-vol {
+  background-image: url(../img/volume-icon.svg);
 }
