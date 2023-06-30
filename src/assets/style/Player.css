@@ -16,7 +16,6 @@
   align-items: center;
   margin-left: 16px;
   flex: 1;
-  /* width: 100%; */
 }
 
 .player__img {
@@ -99,6 +98,10 @@
   border: none;
   outline: none;
   background-color: transparent;
+  transition: all 0.2s;
+}
+.playButton:hover {
+  opacity: 0.7;
 }
 
 .player__settings {
@@ -106,7 +109,6 @@
   align-items: center;
   justify-content: flex-end;
   flex: 1;
-  /* width: 100%; */
 }
 
 .player__settings-img {

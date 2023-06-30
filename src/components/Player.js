@@ -20,12 +20,14 @@ function Player() {
     if (audioElement) {
       audioElement.addEventListener("timeupdate", handleTimeUpdate);
       audioElement.addEventListener("loadedmetadata", handleLoadedMetadata);
+      audioElement.addEventListener("ended", handleTrackEnded);
       return () => {
         audioElement.removeEventListener("timeupdate", handleTimeUpdate);
         audioElement.removeEventListener(
           "loadedmetadata",
           handleLoadedMetadata
         );
+        audioElement.removeEventListener("ended", handleTrackEnded);
       };
     }
   }, [currentTrackIndex]);
@@ -42,6 +44,10 @@ function Player() {
     setDuration(document.getElementById("audio").duration);
   };
 
+  const handleTrackEnded = () => {
+    playNextTrack();
+  };
+
   const playingButton = () => {
     const audioElement = document.getElementById("audio");
     if (isPlaying) {
@@ -53,17 +59,18 @@ function Player() {
     }
   };
 
-
   const playNextTrack = () => {
     setCurrentTrackIndex((prevIndex) =>
       prevIndex === music.length - 1 ? 0 : prevIndex + 1
     );
+    setIsPlaying(true);
   };
 
   const playPreviousTrack = () => {
     setCurrentTrackIndex((prevIndex) =>
       prevIndex === 0 ? music.length - 1 : prevIndex - 1
     );
+    setIsPlaying(true);
   };
 
   const formatTime = (time) => {
@@ -146,7 +153,7 @@ function Player() {
           />
         </div>
       </div>
-      <audio id="audio" src={currentTrack.soundPath} />
+      <audio id="audio" src={currentTrack.soundPath} autoPlay />
     </>
   );
 }
