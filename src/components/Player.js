@@ -4,56 +4,59 @@ import CoverAlbumPng from "../assets/img/album-cover.png";
 import FavoriteSvg from "../assets/img/favorite-icon.svg";
 import VolumnSvg from "../assets/img/volume-icon.svg";
 import { Link } from "react-router-dom";
-import useSound from "use-sound";
-import track from "../assets/music/10 - Завтра война.mp3";
 import { IconContext } from "react-icons";
 import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
 import { AiFillPlayCircle, AiFillPauseCircle } from "react-icons/ai";
+import track from "../assets/music/10 - Завтра война.mp3";
 
 function Player() {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [play, { pause, duration, sound }] = useSound(track);
-  const [currTime, setCurrTime] = useState({
-    min: "",
-    sec: "",
-  });
+  const [duration, setDuration] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
 
-  const [seconds, setSeconds] = useState("0");
+  useEffect(() => {
+    const audioElement = document.getElementById("audio");
+    if (audioElement) {
+      audioElement.addEventListener("timeupdate", handleTimeUpdate);
+      audioElement.addEventListener("loadedmetadata", handleLoadedMetadata);
+      return () => {
+        audioElement.removeEventListener("timeupdate", handleTimeUpdate);
+        audioElement.removeEventListener(
+          "loadedmetadata",
+          handleLoadedMetadata
+        );
+      };
+    }
+  }, []);
+
+  const handleTimeUpdate = () => {
+    setCurrentTime(document.getElementById("audio").currentTime);
+  };
+
+  const handleLoadedMetadata = () => {
+    setDuration(document.getElementById("audio").duration);
+  };
 
   const playingButton = () => {
+    const audioElement = document.getElementById("audio");
     if (isPlaying) {
-      pause();
+      audioElement.pause();
       setIsPlaying(false);
     } else {
-      play();
+      audioElement.play();
       setIsPlaying(true);
     }
   };
 
-  const sec = duration / 1000;
-  const min = Math.floor(sec / 60);
-  const secRemain = Math.floor(sec % 60);
-  const time = {
-    min: min.toString().padStart(2, "0"),
-    sec: secRemain.toString().padStart(2, "0"),
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60)
+      .toString()
+      .padStart(2, "0");
+    const seconds = Math.floor(time % 60)
+      .toString()
+      .padStart(2, "0");
+    return `${minutes}:${seconds}`;
   };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (sound) {
-        setSeconds(sound.seek([]));
-        const min = Math.floor(sound.seek([]) / 60);
-        const sec = Math.floor(sound.seek([]) % 60);
-        const minStr = min.toString().padStart(2, "0");
-        const secStr = sec.toString().padStart(2, "0");
-        setCurrTime({
-          minStr,
-          secStr,
-        });
-      }
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [sound]);
 
   return (
     <>
@@ -100,22 +103,18 @@ function Player() {
             </button>
           </div>
           <div className="progress-player">
-            <p className="time time-left">
-              {currTime.minStr}:{currTime.secStr}
-            </p>
+            <p className="time time-left">{formatTime(currentTime)}</p>
             <input
               type="range"
               min="0"
-              max={duration / 1000}
-              value={seconds}
+              max={duration}
+              value={currentTime}
               className="timeline"
               onChange={(e) => {
-                sound.seek([e.target.value]);
+                document.getElementById("audio").currentTime = e.target.value;
               }}
             />
-            <p className="time time-right">
-              {time.min}:{time.sec}
-            </p>
+            <p className="time time-right">{formatTime(duration)}</p>
           </div>
         </div>
         <div className="player__settings">
@@ -127,6 +126,7 @@ function Player() {
           />
         </div>
       </div>
+      <audio id="audio" src={track} />
     </>
   );
 }
