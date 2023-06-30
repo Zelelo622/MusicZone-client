@@ -54,14 +54,14 @@ function SideBar() {
         <div className="sidebar__content">
           <h3 className="sidebar__content-title">Мои плейлисты</h3>
           <ul className="sidebar__list">
-            {playlists.map((playlists, index) => (
-              <li className="sidebar__item-border sidebar__item" key={index}>
+            {playlists.map((playlists) => (
+              <li className="sidebar__item-border sidebar__item" key={playlists.id}>
                 <Link
                   className={`link ${
-                    activeLink === `playlist ${index}` ? "is-active-link" : ""
+                    activeLink === `playlist ${playlists.id}` ? "is-active-link" : ""
                   }`}
                   to={ALL_MUSIC_ROUTE}
-                  onClick={() => handleLinkClick(`playlist ${index}`)}
+                  onClick={() => handleLinkClick(`playlist ${playlists.id}`)}
                 >
                   {playlists.title}
                 </Link>

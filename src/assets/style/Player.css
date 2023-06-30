@@ -63,17 +63,37 @@
   margin-bottom: 18px;
 }
 
-.player__instr-img {
-  width: 24px;
-  height: 24px;
-  margin-right: 32px;
-}
-.player__instr-img:last-child {
-  margin-right: 0;
+.progress-player {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
 }
 
-.music-player {
-  margin-bottom: 20px;
+.time {
+  margin-bottom: 0;
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+.time-right {
+  margin-left: 10px;
+}
+
+.time-left {
+  margin-right: 10px;
+}
+
+.timeline {
+  background-color: #4c4e54;
+  border-radius: 999px;
+  width: 500px;
+  height: 4px;
+}
+
+.playButton {
+  border: none;
+  outline: none;
+  background-color: transparent;
 }
 
 .player__settings {

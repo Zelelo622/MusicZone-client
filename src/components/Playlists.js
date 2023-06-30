@@ -9,9 +9,9 @@ function Playlists() {
     <>
       <div className="playlists">
         <div className="playlists__list">
-          {playlists.map((playlist, index) => (
-            <Link>
-              <div className="playlists__item" key={index}>
+          {playlists.map((playlist) => (
+            <Link key={playlist.id}>
+              <div className="playlists__item">
                 <img
                   className="playlists__img"
                   src={playlist.imgPath}

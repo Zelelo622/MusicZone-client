@@ -1,22 +1,59 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../assets/style/Player.css";
 import CoverAlbumPng from "../assets/img/album-cover.png";
 import FavoriteSvg from "../assets/img/favorite-icon.svg";
 import VolumnSvg from "../assets/img/volume-icon.svg";
-import StartSvg from "../assets/img/start-icon.svg";
-import BeforeTrackSvg from "../assets/img/before-track-icon.svg";
-import AfterTrackSvg from "../assets/img/after-track-icon.svg";
 import { Link } from "react-router-dom";
+import useSound from "use-sound";
+import track from "../assets/music/10 - Завтра война.mp3";
+import { IconContext } from "react-icons";
+import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
+import { AiFillPlayCircle, AiFillPauseCircle } from "react-icons/ai";
 
 function Player() {
-  const [progress, setProgress] = useState(0);
-  const maxProgress = 100;
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [play, { pause, duration, sound }] = useSound(track);
+  const [currTime, setCurrTime] = useState({
+    min: "",
+    sec: "",
+  });
 
-  const handleChange = (event) => {
-    const value = Number(event.target.value);
-    setProgress(value);
-    // Дополнительные действия при изменении значения прогресса (например, переключение трека)
+  const [seconds, setSeconds] = useState("0");
+
+  const playingButton = () => {
+    if (isPlaying) {
+      pause();
+      setIsPlaying(false);
+    } else {
+      play();
+      setIsPlaying(true);
+    }
   };
+
+  const sec = duration / 1000;
+  const min = Math.floor(sec / 60);
+  const secRemain = Math.floor(sec % 60);
+  const time = {
+    min: min.toString().padStart(2, "0"),
+    sec: secRemain.toString().padStart(2, "0"),
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (sound) {
+        setSeconds(sound.seek([]));
+        const min = Math.floor(sound.seek([]) / 60);
+        const sec = Math.floor(sound.seek([]) % 60);
+        const minStr = min.toString().padStart(2, "0");
+        const secStr = sec.toString().padStart(2, "0");
+        setCurrTime({
+          minStr,
+          secStr,
+        });
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [sound]);
 
   return (
     <>
@@ -38,27 +75,47 @@ function Player() {
         </div>
         <div className="player__instr">
           <div className="player__instr-inner">
-            <img
-              className="player__instr-img"
-              src={BeforeTrackSvg}
-              alt="Назад"
-            />
-            <img className="player__instr-img" src={StartSvg} alt="Старт" />
-            <img
-              className="player__instr-img"
-              src={AfterTrackSvg}
-              alt="Вперед"
-            />
+            <button className="playButton">
+              <IconContext.Provider value={{ size: "3em", color: "#FCFCFC" }}>
+                <BiSkipPrevious />
+              </IconContext.Provider>
+            </button>
+            {!isPlaying ? (
+              <button className="playButton" onClick={playingButton}>
+                <IconContext.Provider value={{ size: "3em", color: "#FCFCFC" }}>
+                  <AiFillPlayCircle />
+                </IconContext.Provider>
+              </button>
+            ) : (
+              <button className="playButton" onClick={playingButton}>
+                <IconContext.Provider value={{ size: "3em", color: "#FCFCFC" }}>
+                  <AiFillPauseCircle />
+                </IconContext.Provider>
+              </button>
+            )}
+            <button className="playButton">
+              <IconContext.Provider value={{ size: "3em", color: "#FCFCFC" }}>
+                <BiSkipNext />
+              </IconContext.Provider>
+            </button>
           </div>
-          <div class="progress-bar">
+          <div className="progress-player">
+            <p className="time time-left">
+              {currTime.minStr}:{currTime.secStr}
+            </p>
             <input
               type="range"
-              id="progressBar"
-              min={0}
-              max={maxProgress}
-              value={progress}
-              onChange={handleChange}
+              min="0"
+              max={duration / 1000}
+              value={seconds}
+              className="timeline"
+              onChange={(e) => {
+                sound.seek([e.target.value]);
+              }}
             />
+            <p className="time time-right">
+              {time.min}:{time.sec}
+            </p>
           </div>
         </div>
         <div className="player__settings">
