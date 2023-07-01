@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "../assets/style/Player.css";
-import CoverAlbumPng from "../assets/img/album-cover.png";
-import FavoriteSvg from "../assets/img/favorite-icon.svg";
-import VolumnSvg from "../assets/img/volume-icon.svg";
 import { Link } from "react-router-dom";
 import { IconContext } from "react-icons";
 import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
@@ -15,6 +12,8 @@ function Player() {
   const [currentTime, setCurrentTime] = useState(0);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [volume, setVolume] = useState(1);
+  const [showVolumeSlider, setShowVolumeSlider] = useState(false);
 
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
@@ -88,6 +87,21 @@ function Player() {
     return `${minutes}:${seconds}`;
   };
 
+  const handleVolumeChange = (e) => {
+    const audioElement = document.getElementById("audio");
+    const volumeValue = parseFloat(e.target.value);
+    audioElement.volume = volumeValue;
+    setVolume(volumeValue);
+  };
+
+  const handleVolumeButtonHover = () => {
+    setShowVolumeSlider(true);
+  };
+
+  const handleVolumeButtonLeave = () => {
+    setShowVolumeSlider(false);
+  };
+
   const currentTrack = music[currentTrackIndex];
 
   return (
@@ -144,6 +158,7 @@ function Player() {
               type="range"
               min="0"
               max={duration}
+              step="0.01"
               value={currentTime}
               className="timeline"
               onChange={(e) => {
@@ -162,6 +177,18 @@ function Player() {
           ></button>
 
           <button className="player__settings-btn player__settings-vol"></button>
+
+          <div className="player__volume">
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value={volume}
+              className="volume-slider"
+              onChange={handleVolumeChange}
+            />
+          </div>
         </div>
       </div>
       <audio id="audio" src={currentTrack.soundPath} autoPlay />
