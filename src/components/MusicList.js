@@ -11,7 +11,7 @@ const MusicList = observer(() => {
   const { player } = useContext(Context);
 
   const handlePlayPause = (index) => {
-    if (player.selectTrackId === index) {
+    if (player.currentTrackId === index) {
       player.setIsPlaying(!player.isPlaying);
     } else {
       player.setCurrentTrackId(index);
@@ -44,7 +44,7 @@ const MusicList = observer(() => {
                 >
                   <img
                     src={
-                      music.id === player.selectTrackId && player.isPlaying
+                      music.id === player.currentTrackId && player.isPlaying
                         ? PauseMusicSvg
                         : PlayMusicSvg
                     }
