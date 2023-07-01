@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../assets/style/Player.css";
 import { Link } from "react-router-dom";
 import { IconContext } from "react-icons";
 import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
 import { AiFillPlayCircle, AiFillPauseCircle } from "react-icons/ai";
 import { music } from "../utils/objData";
+import { observer } from "mobx-react-lite";
+import { Context } from "..";
 
-function Player() {
-  const [isPlaying, setIsPlaying] = useState(false);
+const Player = observer(({ selectTrackId, isPlayingTrack }) => {
+  const { player } = useContext(Context);
   const [duration, setDuration] = useState(0);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [volume, setVolume] = useState(1);
+  const [volume, setVolume] = useState(() => {
+    const savedVolume = localStorage.getItem("volume");
+    return savedVolume ? parseFloat(savedVolume) : 1;
+  });
   const [isMuted, setIsMuted] = useState(false);
   const [previousVolume, setPreviousVolume] = useState(1);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -20,6 +23,10 @@ function Player() {
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
   };
+
+  useEffect(() => {
+    localStorage.setItem("volume", volume.toString());
+  }, [volume]);
 
   useEffect(() => {
     const audioElement = document.getElementById("audio");
@@ -36,26 +43,58 @@ function Player() {
         audioElement.removeEventListener("ended", handleTrackEnded);
       };
     }
-  }, [currentTrackIndex]);
-
-  useEffect(() => {
-    setCurrentTime(0);
-    setIsLoaded(false);
-  }, [currentTrackIndex]);
+  }, [player.currentTrackId]);
 
   useEffect(() => {
     if (isLoaded) {
       const audioElement = document.getElementById("audio");
-      if (isPlaying) {
+      if (player.isPlaying) {
         audioElement.play();
       } else {
         audioElement.pause();
       }
+      audioElement.volume = volume;
     }
-  }, [isPlaying, isLoaded]);
+  }, [player.isPlaying, isLoaded, volume]);
+
+  useEffect(() => {
+    player.setCurrentTrackId(
+      selectTrackId !== null && selectTrackId !== undefined
+        ? selectTrackId
+        : player.currentTrackId
+    );
+    if (player.currentTrackId === selectTrackId) {
+      setIsLoaded(true);
+    }
+    player.setIsPlaying(
+      isPlayingTrack !== null && isPlayingTrack !== undefined
+        ? isPlayingTrack
+        : player.isPlaying
+    );
+  }, [selectTrackId, isPlayingTrack]);
+
+  useEffect(() => {
+    const savedTrackId = localStorage.getItem("currentTrackId");
+    const savedIsPlaying = localStorage.getItem("isPlaying");
+
+    if (savedTrackId && savedIsPlaying) {
+      player.setCurrentTrackId(parseInt(savedTrackId, 10));
+      player.setIsPlaying(savedIsPlaying === "true");
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("currentTrackId", player.currentTrackId.toString());
+    localStorage.setItem("isPlaying", player.isPlaying.toString());
+  }, [player.currentTrackId, player.isPlaying]);
+
+  useEffect(() => {
+    player.setCurrentTime(0);
+    setIsLoaded(false);
+  }, [player.currentTrackId]);
 
   const handleTimeUpdate = () => {
-    setCurrentTime(document.getElementById("audio").currentTime);
+    player.setCurrentTime(document.getElementById("audio").currentTime);
   };
 
   const handleLoadedMetadata = () => {
@@ -68,25 +107,32 @@ function Player() {
   };
 
   const playingButton = () => {
-    if (isPlaying) {
-      setIsPlaying(false);
+    if (player.isPlaying) {
+      player.setIsPlaying(false);
     } else {
-      setIsPlaying(true);
+      player.setIsPlaying(true);
     }
   };
 
   const playNextTrack = () => {
-    setCurrentTrackIndex((prevIndex) =>
-      prevIndex === music.length - 1 ? 0 : prevIndex + 1
+    const currentIndex = music.findIndex(
+      (track) => track.id === player.currentTrackId
     );
-    setIsPlaying(true);
+    const nextIndex = currentIndex === music.length - 1 ? 0 : currentIndex + 1;
+    const nextTrackId = music[nextIndex].id;
+    player.setCurrentTrackId(nextTrackId);
+    player.setIsPlaying(true);
   };
 
   const playPreviousTrack = () => {
-    setCurrentTrackIndex((prevIndex) =>
-      prevIndex === 0 ? music.length - 1 : prevIndex - 1
+    const currentIndex = music.findIndex(
+      (track) => track.id === player.currentTrackId
     );
-    setIsPlaying(true);
+    const previousIndex =
+      currentIndex === 0 ? music.length - 1 : currentIndex - 1;
+    const previousTrackId = music[previousIndex].id;
+    player.setCurrentTrackId(previousTrackId);
+    player.setIsPlaying(true);
   };
 
   const formatTime = (time) => {
@@ -121,6 +167,9 @@ function Player() {
     }
   };
 
+  const currentTrackIndex = music.findIndex(
+    (track) => track.id === player.currentTrackId
+  );
   const currentTrack = music[currentTrackIndex];
 
   return (
@@ -152,7 +201,7 @@ function Player() {
                 <BiSkipPrevious />
               </IconContext.Provider>
             </button>
-            {!isPlaying ? (
+            {!player.isPlaying ? (
               <button className="playButton" onClick={playingButton}>
                 <IconContext.Provider value={{ size: "3em", color: "#FCFCFC" }}>
                   <AiFillPlayCircle />
@@ -172,13 +221,13 @@ function Player() {
             </button>
           </div>
           <div className="progress-player">
-            <p className="time time-left">{formatTime(currentTime)}</p>
+            <p className="time time-left">{formatTime(player.currentTime)}</p>
             <input
               type="range"
               min="0"
               max={duration}
               step="0.01"
-              value={currentTime}
+              value={player.currentTime}
               className="timeline"
               onChange={(e) => {
                 document.getElementById("audio").currentTime = e.target.value;
@@ -216,6 +265,6 @@ function Player() {
       <audio id="audio" src={currentTrack.soundPath} autoPlay />
     </>
   );
-}
+});
 
 export default Player;

@@ -8,7 +8,7 @@ function HomePage() {
     <>
       <TopBar />
       <Playlists />
-      <Player />
+      {/* <Player /> */}
     </>
   );
 }
