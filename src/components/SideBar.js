@@ -2,17 +2,17 @@ import React, { useState } from "react";
 import "../assets/style/SideBar.css";
 import Logo from "../assets/img/logo.svg";
 import { ALL_MUSIC_ROUTE, HOME_ROUTE } from "../utils/consts";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { playlists } from "../utils/objData";
 
 function SideBar() {
-  const [activeLink, setActiveLink] = useState(HOME_ROUTE);
+  const location = useLocation();
+  const [activeLink, setActiveLink] = useState(location.pathname);
 
   const handleLinkClick = (link) => {
     setActiveLink(link);
   };
 
-  // TODO: у плейлистов изменить ссылки
   return (
     <>
       <nav className="sidebar">
