@@ -13,7 +13,8 @@ function Player() {
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [volume, setVolume] = useState(1);
-  const [showVolumeSlider, setShowVolumeSlider] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const [previousVolume, setPreviousVolume] = useState(1);
 
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
@@ -92,14 +93,23 @@ function Player() {
     const volumeValue = parseFloat(e.target.value);
     audioElement.volume = volumeValue;
     setVolume(volumeValue);
+    if (isMuted) {
+      setIsMuted(false);
+    }
   };
 
-  const handleVolumeButtonHover = () => {
-    setShowVolumeSlider(true);
-  };
-
-  const handleVolumeButtonLeave = () => {
-    setShowVolumeSlider(false);
+  const toggleMute = () => {
+    const audioElement = document.getElementById("audio");
+    if (!isMuted) {
+      setPreviousVolume(volume);
+      audioElement.volume = 0;
+      setVolume(0);
+      setIsMuted(true);
+    } else {
+      audioElement.volume = previousVolume;
+      setVolume(previousVolume);
+      setIsMuted(false);
+    }
   };
 
   const currentTrack = music[currentTrackIndex];
@@ -176,7 +186,7 @@ function Player() {
             onClick={toggleFavorite}
           ></button>
 
-          <button className="player__settings-btn player__settings-vol"></button>
+          <button className="player__settings-btn player__settings-vol" onClick={toggleMute}></button>
 
           <div className="player__volume">
             <input
