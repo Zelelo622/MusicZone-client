@@ -2,27 +2,22 @@ import { makeAutoObservable } from "mobx";
 
 export default class PlayerStore {
   constructor() {
-    this._currentTrackId = 0;
+    this._currentTrackId = 1;
     this._isPlaying = false;
     this._currentTime = 0;
-    this._volume = 1;
     makeAutoObservable(this);
   }
 
-  set currentTrackId(trackId) {
+  setCurrentTrackId(trackId) {
     this._currentTrackId = trackId;
   }
 
-  set isPlaying(playing) {
+  setIsPlaying(playing) {
     this._isPlaying = playing;
   }
 
-  set currentTime(time) {
+  setCurrentTime(time) {
     this._currentTime = time;
-  }
-
-  set volume(volume) {
-    this._volume = volume;
   }
 
   get currentTrackId() {
@@ -35,9 +30,5 @@ export default class PlayerStore {
 
   get currentTime() {
     return this._currentTime;
-  }
-
-  get volume() {
-    return this._volume;
   }
 }

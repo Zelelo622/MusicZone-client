@@ -9,14 +9,8 @@ import { observer } from "mobx-react-lite";
 import { Context } from "..";
 
 const Player = observer(({ selectTrackId, isPlayingTrack }) => {
-  const playerStore = useContext(Context);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const { player } = useContext(Context);
   const [duration, setDuration] = useState(0);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [currentTrackId, setCurrentTrackId] = useState(() => {
-    const savedTrackId = localStorage.getItem("currentTrackId");
-    return savedTrackId ? parseInt(savedTrackId) : 1;
-  });
   const [isFavorite, setIsFavorite] = useState(false);
   const [volume, setVolume] = useState(() => {
     const savedVolume = localStorage.getItem("volume");
@@ -29,10 +23,6 @@ const Player = observer(({ selectTrackId, isPlayingTrack }) => {
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
   };
-
-  useEffect(() => {
-    localStorage.setItem("currentTrackId", currentTrackId.toString());
-  }, [currentTrackId]);
 
   useEffect(() => {
     localStorage.setItem("volume", volume.toString());
@@ -53,43 +43,57 @@ const Player = observer(({ selectTrackId, isPlayingTrack }) => {
         audioElement.removeEventListener("ended", handleTrackEnded);
       };
     }
-  }, [currentTrackId]);
-
-  useEffect(() => {
-    setCurrentTime(0);
-    setIsLoaded(false);
-  }, [currentTrackId]);
-
-  useEffect(() => {
-    setCurrentTrackId(
-      selectTrackId !== null && selectTrackId !== undefined
-        ? selectTrackId
-        : currentTrackId
-    );
-    console.log(currentTrackId);
-    if (currentTrackId === selectTrackId) {
-      setIsLoaded(true);
-    }
-    setIsPlaying(
-      isPlayingTrack !== null && isPlayingTrack !== undefined
-        ? isPlayingTrack
-        : isPlaying
-    );
-  }, [selectTrackId, isPlayingTrack]);
+  }, [player.currentTrackId]);
 
   useEffect(() => {
     if (isLoaded) {
       const audioElement = document.getElementById("audio");
-      if (isPlaying) {
+      if (player.isPlaying) {
         audioElement.play();
       } else {
         audioElement.pause();
       }
     }
-  }, [isPlaying, isLoaded]);
+  }, [player.isPlaying, isLoaded]);
+
+  useEffect(() => {
+    player.setCurrentTrackId(
+      selectTrackId !== null && selectTrackId !== undefined
+        ? selectTrackId
+        : player.currentTrackId
+    );
+    if (player.currentTrackId === selectTrackId) {
+      setIsLoaded(true);
+    }
+    player.setIsPlaying(
+      isPlayingTrack !== null && isPlayingTrack !== undefined
+        ? isPlayingTrack
+        : player.isPlaying
+    );
+  }, [selectTrackId, isPlayingTrack]);
+
+  useEffect(() => {
+    const savedTrackId = localStorage.getItem("currentTrackId");
+    const savedIsPlaying = localStorage.getItem("isPlaying");
+
+    if (savedTrackId && savedIsPlaying) {
+      player.setCurrentTrackId(parseInt(savedTrackId, 10));
+      player.setIsPlaying(savedIsPlaying === "true");
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("currentTrackId", player.currentTrackId.toString());
+    localStorage.setItem("isPlaying", player.isPlaying.toString());
+  }, [player.currentTrackId, player.isPlaying]);
+
+  useEffect(() => {
+    player.setCurrentTime(0);
+    setIsLoaded(false);
+  }, [player.currentTrackId]);
 
   const handleTimeUpdate = () => {
-    setCurrentTime(document.getElementById("audio").currentTime);
+    player.setCurrentTime(document.getElementById("audio").currentTime);
   };
 
   const handleLoadedMetadata = () => {
@@ -102,32 +106,32 @@ const Player = observer(({ selectTrackId, isPlayingTrack }) => {
   };
 
   const playingButton = () => {
-    if (isPlaying) {
-      setIsPlaying(false);
+    if (player.isPlaying) {
+      player.setIsPlaying(false);
     } else {
-      setIsPlaying(true);
+      player.setIsPlaying(true);
     }
   };
 
   const playNextTrack = () => {
     const currentIndex = music.findIndex(
-      (track) => track.id === currentTrackId
+      (track) => track.id === player.currentTrackId
     );
     const nextIndex = currentIndex === music.length - 1 ? 0 : currentIndex + 1;
     const nextTrackId = music[nextIndex].id;
-    setCurrentTrackId(nextTrackId);
-    setIsPlaying(true);
+    player.setCurrentTrackId(nextTrackId);
+    player.setIsPlaying(true);
   };
 
   const playPreviousTrack = () => {
     const currentIndex = music.findIndex(
-      (track) => track.id === currentTrackId
+      (track) => track.id === player.currentTrackId
     );
     const previousIndex =
       currentIndex === 0 ? music.length - 1 : currentIndex - 1;
     const previousTrackId = music[previousIndex].id;
-    setCurrentTrackId(previousTrackId);
-    setIsPlaying(true);
+    player.setCurrentTrackId(previousTrackId);
+    player.setIsPlaying(true);
   };
 
   const formatTime = (time) => {
@@ -163,9 +167,13 @@ const Player = observer(({ selectTrackId, isPlayingTrack }) => {
   };
 
   const currentTrackIndex = music.findIndex(
-    (track) => track.id === currentTrackId
+    (track) => track.id === player.currentTrackId
   );
   const currentTrack = music[currentTrackIndex];
+
+  console.log(player.currentTrackId);
+  console.log(player.isPlaying);
+  console.log(player.currentTime);
 
   return (
     <>
@@ -196,7 +204,7 @@ const Player = observer(({ selectTrackId, isPlayingTrack }) => {
                 <BiSkipPrevious />
               </IconContext.Provider>
             </button>
-            {!isPlaying ? (
+            {!player.isPlaying ? (
               <button className="playButton" onClick={playingButton}>
                 <IconContext.Provider value={{ size: "3em", color: "#FCFCFC" }}>
                   <AiFillPlayCircle />
@@ -216,13 +224,13 @@ const Player = observer(({ selectTrackId, isPlayingTrack }) => {
             </button>
           </div>
           <div className="progress-player">
-            <p className="time time-left">{formatTime(currentTime)}</p>
+            <p className="time time-left">{formatTime(player.currentTime)}</p>
             <input
               type="range"
               min="0"
               max={duration}
               step="0.01"
-              value={currentTime}
+              value={player.currentTime}
               className="timeline"
               onChange={(e) => {
                 document.getElementById("audio").currentTime = e.target.value;

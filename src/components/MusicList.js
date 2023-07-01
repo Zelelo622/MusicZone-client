@@ -1,21 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { music } from "../utils/objData";
 import "../assets/style/MusicList.css";
 import { Link } from "react-router-dom";
 import PlayMusicSvg from "../assets/img/play-music.svg";
 import PauseMusicSvg from "../assets/img/pause-music.svg";
-import Player from "./Player";
+import { observer } from "mobx-react-lite";
+import { Context } from "..";
 
-function MusicList() {
-  const [selectTrackId, setSelectTrackId] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+const MusicList = observer(() => {
+  const { player } = useContext(Context);
 
   const handlePlayPause = (index) => {
-    if (selectTrackId === index) {
-      setIsPlaying(!isPlaying);
+    if (player.selectTrackId === index) {
+      player.setIsPlaying(!player.isPlaying);
     } else {
-      setSelectTrackId(index);
-      setIsPlaying(true);
+      player.setCurrentTrackId(index);
+      player.setIsPlaying(true);
     }
   };
 
@@ -44,7 +44,9 @@ function MusicList() {
                 >
                   <img
                     src={
-                      music.id === selectTrackId && isPlaying ? PauseMusicSvg : PlayMusicSvg
+                      music.id === player.selectTrackId && player.isPlaying
+                        ? PauseMusicSvg
+                        : PlayMusicSvg
                     }
                     alt="Старт/Пауза"
                   />
@@ -54,10 +56,8 @@ function MusicList() {
           ))}
         </div>
       </div>
-
-      <Player selectTrackId={selectTrackId} isPlayingTrack={isPlaying} />
     </>
   );
-}
+});
 
 export default MusicList;
