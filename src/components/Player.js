@@ -15,6 +15,7 @@ function Player() {
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
   const [previousVolume, setPreviousVolume] = useState(1);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
@@ -39,7 +40,19 @@ function Player() {
 
   useEffect(() => {
     setCurrentTime(0);
+    setIsLoaded(false);
   }, [currentTrackIndex]);
+
+  useEffect(() => {
+    if (isLoaded) {
+      const audioElement = document.getElementById("audio");
+      if (isPlaying) {
+        audioElement.play();
+      } else {
+        audioElement.pause();
+      }
+    }
+  }, [isPlaying, isLoaded]);
 
   const handleTimeUpdate = () => {
     setCurrentTime(document.getElementById("audio").currentTime);
@@ -47,6 +60,7 @@ function Player() {
 
   const handleLoadedMetadata = () => {
     setDuration(document.getElementById("audio").duration);
+    setIsLoaded(true);
   };
 
   const handleTrackEnded = () => {
@@ -54,12 +68,9 @@ function Player() {
   };
 
   const playingButton = () => {
-    const audioElement = document.getElementById("audio");
     if (isPlaying) {
-      audioElement.pause();
       setIsPlaying(false);
     } else {
-      audioElement.play();
       setIsPlaying(true);
     }
   };
@@ -93,22 +104,20 @@ function Player() {
     const volumeValue = parseFloat(e.target.value);
     audioElement.volume = volumeValue;
     setVolume(volumeValue);
-    if (isMuted) {
-      setIsMuted(false);
-    }
+    setIsMuted(false);
   };
 
   const toggleMute = () => {
     const audioElement = document.getElementById("audio");
-    if (!isMuted) {
+    if (isMuted) {
+      audioElement.volume = previousVolume;
+      setVolume(previousVolume);
+      setIsMuted(false);
+    } else {
       setPreviousVolume(volume);
       audioElement.volume = 0;
       setVolume(0);
       setIsMuted(true);
-    } else {
-      audioElement.volume = previousVolume;
-      setVolume(previousVolume);
-      setIsMuted(false);
     }
   };
 
@@ -186,7 +195,10 @@ function Player() {
             onClick={toggleFavorite}
           ></button>
 
-          <button className="player__settings-btn player__settings-vol" onClick={toggleMute}></button>
+          <button
+            className="player__settings-btn player__settings-vol"
+            onClick={toggleMute}
+          ></button>
 
           <div className="player__volume">
             <input
@@ -194,7 +206,7 @@ function Player() {
               min="0"
               max="1"
               step="0.01"
-              value={volume}
+              value={isMuted ? 0 : volume}
               className="volume-slider"
               onChange={handleVolumeChange}
             />
