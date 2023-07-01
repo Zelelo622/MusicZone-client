@@ -53,8 +53,9 @@ const Player = observer(({ selectTrackId, isPlayingTrack }) => {
       } else {
         audioElement.pause();
       }
+      audioElement.volume = volume;
     }
-  }, [player.isPlaying, isLoaded]);
+  }, [player.isPlaying, isLoaded, volume]);
 
   useEffect(() => {
     player.setCurrentTrackId(
@@ -170,10 +171,6 @@ const Player = observer(({ selectTrackId, isPlayingTrack }) => {
     (track) => track.id === player.currentTrackId
   );
   const currentTrack = music[currentTrackIndex];
-
-  console.log(player.currentTrackId);
-  console.log(player.isPlaying);
-  console.log(player.currentTime);
 
   return (
     <>
