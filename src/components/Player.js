@@ -1,18 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../assets/style/Player.css";
 import { Link } from "react-router-dom";
 import { IconContext } from "react-icons";
 import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
 import { AiFillPlayCircle, AiFillPauseCircle } from "react-icons/ai";
 import { music } from "../utils/objData";
+import { observer } from "mobx-react-lite";
+import { Context } from "..";
 
-function Player({ selectTrackId, isPlayingTrack }) {
+const Player = observer(({ selectTrackId, isPlayingTrack }) => {
+  const playerStore = useContext(Context);
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
-  const [currentTrackId, setCurrentTrackId] = useState(1);
+  const [currentTrackId, setCurrentTrackId] = useState(() => {
+    const savedTrackId = localStorage.getItem("currentTrackId");
+    return savedTrackId ? parseInt(savedTrackId) : 1;
+  });
   const [isFavorite, setIsFavorite] = useState(false);
-  const [volume, setVolume] = useState(1);
+  const [volume, setVolume] = useState(() => {
+    const savedVolume = localStorage.getItem("volume");
+    return savedVolume ? parseFloat(savedVolume) : 1;
+  });
   const [isMuted, setIsMuted] = useState(false);
   const [previousVolume, setPreviousVolume] = useState(1);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -20,6 +29,14 @@ function Player({ selectTrackId, isPlayingTrack }) {
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
   };
+
+  useEffect(() => {
+    localStorage.setItem("currentTrackId", currentTrackId.toString());
+  }, [currentTrackId]);
+
+  useEffect(() => {
+    localStorage.setItem("volume", volume.toString());
+  }, [volume]);
 
   useEffect(() => {
     const audioElement = document.getElementById("audio");
@@ -44,9 +61,20 @@ function Player({ selectTrackId, isPlayingTrack }) {
   }, [currentTrackId]);
 
   useEffect(() => {
-    setCurrentTrackId(selectTrackId !== null ? selectTrackId : currentTrackId);
-    setIsLoaded(true);
-    setIsPlaying(isPlayingTrack);
+    setCurrentTrackId(
+      selectTrackId !== null && selectTrackId !== undefined
+        ? selectTrackId
+        : currentTrackId
+    );
+    console.log(currentTrackId);
+    if (currentTrackId === selectTrackId) {
+      setIsLoaded(true);
+    }
+    setIsPlaying(
+      isPlayingTrack !== null && isPlayingTrack !== undefined
+        ? isPlayingTrack
+        : isPlaying
+    );
   }, [selectTrackId, isPlayingTrack]);
 
   useEffect(() => {
@@ -232,6 +260,6 @@ function Player({ selectTrackId, isPlayingTrack }) {
       <audio id="audio" src={currentTrack.soundPath} autoPlay />
     </>
   );
-}
+});
 
 export default Player;
