@@ -6,11 +6,11 @@ import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
 import { AiFillPlayCircle, AiFillPauseCircle } from "react-icons/ai";
 import { music } from "../utils/objData";
 
-function Player() {
+function Player({ selectTrackId, isPlayingTrack }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
-  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+  const [currentTrackId, setCurrentTrackId] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
@@ -36,12 +36,18 @@ function Player() {
         audioElement.removeEventListener("ended", handleTrackEnded);
       };
     }
-  }, [currentTrackIndex]);
+  }, [currentTrackId]);
 
   useEffect(() => {
     setCurrentTime(0);
     setIsLoaded(false);
-  }, [currentTrackIndex]);
+  }, [currentTrackId]);
+
+  useEffect(() => {
+    setCurrentTrackId(selectTrackId !== null ? selectTrackId : currentTrackId);
+    setIsLoaded(true);
+    setIsPlaying(isPlayingTrack);
+  }, [selectTrackId, isPlayingTrack]);
 
   useEffect(() => {
     if (isLoaded) {
@@ -76,16 +82,23 @@ function Player() {
   };
 
   const playNextTrack = () => {
-    setCurrentTrackIndex((prevIndex) =>
-      prevIndex === music.length - 1 ? 0 : prevIndex + 1
+    const currentIndex = music.findIndex(
+      (track) => track.id === currentTrackId
     );
+    const nextIndex = currentIndex === music.length - 1 ? 0 : currentIndex + 1;
+    const nextTrackId = music[nextIndex].id;
+    setCurrentTrackId(nextTrackId);
     setIsPlaying(true);
   };
 
   const playPreviousTrack = () => {
-    setCurrentTrackIndex((prevIndex) =>
-      prevIndex === 0 ? music.length - 1 : prevIndex - 1
+    const currentIndex = music.findIndex(
+      (track) => track.id === currentTrackId
     );
+    const previousIndex =
+      currentIndex === 0 ? music.length - 1 : currentIndex - 1;
+    const previousTrackId = music[previousIndex].id;
+    setCurrentTrackId(previousTrackId);
     setIsPlaying(true);
   };
 
@@ -121,6 +134,9 @@ function Player() {
     }
   };
 
+  const currentTrackIndex = music.findIndex(
+    (track) => track.id === currentTrackId
+  );
   const currentTrack = music[currentTrackIndex];
 
   return (
