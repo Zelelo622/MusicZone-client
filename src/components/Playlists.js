@@ -11,14 +11,14 @@ function Playlists() {
       <div className="playlists">
         <div className="playlists__list">
           {playlists.map((playlist) => (
-            <Link to={PLAYLIST_ROUTE + `/${playlist.title}`} key={playlist.id}>
+            <Link to={PLAYLIST_ROUTE + `/${playlist.name}`} key={playlist.id}>
               <div className="playlists__item">
                 <img
                   className="playlists__img"
                   src={playlist.imgPath}
                   alt="Обложка плейлиста"
                 />
-                <h3 className="playlists__title">{playlist.title}</h3>
+                <h3 className="playlists__title">{playlist.name}</h3>
               </div>
             </Link>
           ))}

@@ -65,10 +65,10 @@ function SideBar() {
                       ? "is-active-link"
                       : ""
                   }`}
-                  to={PLAYLIST_ROUTE + `/${playlists.title}`}
+                  to={PLAYLIST_ROUTE + `/${playlists.name}`}
                   onClick={() => handleLinkClick(`playlist ${playlists.id}`)}
                 >
-                  {playlists.title}
+                  {playlists.name}
                 </Link>
               </li>
             ))}

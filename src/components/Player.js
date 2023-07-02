@@ -181,7 +181,7 @@ const Player = observer(({ selectTrackId, isPlayingTrack }) => {
           <div className="player__name">
             <div className="player__name-innerwrap">
               <Link className="player__name-link" to="#">
-                {currentTrack.title}
+                {currentTrack.name}
               </Link>
             </div>
             <div className="player__artists">
