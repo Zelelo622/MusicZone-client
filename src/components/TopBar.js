@@ -2,14 +2,18 @@ import React from "react";
 import "../assets/style/TopBar.css";
 import SearchBtn from "../assets/img/search.svg";
 import { useNavigate } from "react-router-dom";
-import { REGISTRATION_ROUTE } from "../utils/consts";
+import { LOGIN_ROUTE, REGISTRATION_ROUTE } from "../utils/consts";
 
 function TopBar() {
   const navigate = useNavigate();
 
   const login = () => {
-    navigate(REGISTRATION_ROUTE);
+    navigate(LOGIN_ROUTE);
   };
+
+  const registration = () => {
+    navigate(REGISTRATION_ROUTE)
+  }
 
   return (
     <>
@@ -26,7 +30,7 @@ function TopBar() {
         </div>
         <div className="topbar__btns">
           <button className="topbar__btn" onClick={login}>Войти</button>
-          <button className="topbar__btn topbar__btn-border">
+          <button className="topbar__btn topbar__btn-border" onClick={registration}>
             Зарегистрироваться
           </button>
         </div>
