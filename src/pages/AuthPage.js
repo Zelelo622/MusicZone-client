@@ -1,9 +1,15 @@
-import React from 'react'
+import React from "react";
+import Login from "../components/Login";
+import "../assets/style/Auth.css";
 
 function AuthPage() {
   return (
-    <div>AuthPage</div>
-  )
+    <>
+      <div className="auth">
+        <Login />
+      </div>
+    </>
+  );
 }
 
-export default AuthPage
+export default AuthPage;
