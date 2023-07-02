@@ -1,4 +1,11 @@
-import { ALL_MUSIC_ROUTE, HOME_ROUTE, LOGIN_ROUTE, PROFILE_ROUTE, REGISTRATION_ROUTE } from "./utils/consts";
+import {
+  ALL_MUSIC_ROUTE,
+  HOME_ROUTE,
+  LOGIN_ROUTE,
+  PLAYLIST_ROUTE,
+  PROFILE_ROUTE,
+  REGISTRATION_ROUTE,
+} from "./utils/consts";
 import HomePage from "./pages/HomePage";
 import AuthPage from "./pages/AuthPage";
 import AllMusicPage from "./pages/AllMusicPage";
@@ -24,5 +31,9 @@ export const publicRoutes = [
   {
     path: PROFILE_ROUTE,
     Component: ProfilePage,
-  }
+  },
+  {
+    path: PLAYLIST_ROUTE + "/:name",
+    Component: AllMusicPage,
+  },
 ];

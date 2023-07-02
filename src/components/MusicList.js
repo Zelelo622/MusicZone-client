@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
-import { music } from "../utils/objData";
+import { music, playlists } from "../utils/objData";
 import "../assets/style/MusicList.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import PlayMusicSvg from "../assets/img/play-music.svg";
 import PauseMusicSvg from "../assets/img/pause-music.svg";
 import { observer } from "mobx-react-lite";
@@ -9,6 +9,17 @@ import { Context } from "..";
 
 const MusicList = observer(() => {
   const { player } = useContext(Context);
+  const { name } = useParams();
+  
+  let arrMusic;
+  let playlistMusic;
+  if (name) {
+    const playlist = playlists.find((item) => item.title === name);
+    playlistMusic = music.filter((item) => item.playlists.includes(playlist.id));
+    arrMusic = playlistMusic;
+  } else {
+    arrMusic = music;
+  }
 
   const handlePlayPause = (index) => {
     if (player.currentTrackId === index) {
@@ -23,7 +34,7 @@ const MusicList = observer(() => {
     <>
       <div className="music">
         <div className="music__list">
-          {music.map((music) => (
+          {arrMusic.map((music) => (
             <div className="music__item" key={music.id}>
               <div className="music__info">
                 <img className="music__img" src={music.imgPath} alt="Обложка" />
