@@ -1,8 +1,20 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { REGISTRATION_ROUTE } from "../utils/consts";
+import React, { useContext, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { LOGIN_ROUTE, REGISTRATION_ROUTE } from "../utils/consts";
+import { observer } from "mobx-react-lite";
+import { Context } from "..";
 
-const Login = () => {
+const Login = observer(() => {
+  const { user } = useContext(Context);
+  const location = useLocation();
+  const isLogin = location.pathname === LOGIN_ROUTE;
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const click = () => {
+    user.setIsAuth(true);
+  };
+
   return (
     <div className="auth__container">
       <form className="auth__form">
@@ -15,6 +27,7 @@ const Login = () => {
             type="email"
             placeholder="Почта"
             id="email"
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="auth__group">
@@ -26,6 +39,7 @@ const Login = () => {
             type="password"
             placeholder="Пароль"
             id="password"
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <div className="auth__text-container">
@@ -36,12 +50,12 @@ const Login = () => {
             </Link>
           </p>
         </div>
-        <button type="submit" className="login-button">
+        <button onClick={click} type="submit" className="login-button">
           Войти
         </button>
       </form>
     </div>
   );
-};
+});
 
 export default Login;

@@ -1,17 +1,21 @@
-import React, { createContext } from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import PlayerStore from './store/PlayerStore';
+import React, { createContext } from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import PlayerStore from "./store/PlayerStore";
+import UserStore from "./store/UserStore";
 
 export const Context = createContext(null);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Context.Provider value={{
-    player: new PlayerStore(),
-  }}>
+  <Context.Provider
+    value={{
+      user: new UserStore(),
+      player: new PlayerStore(),
+    }}
+  >
     <React.StrictMode>
       <App />
     </React.StrictMode>

@@ -9,11 +9,11 @@ function App() {
     <BrowserRouter>
       <main className="main">
         <div className="container">
-          {/* <div className="main__content"> */}
-            {/* <SideBar /> */}
+          <div className="main__content">
+            <SideBar />
             <AppRouter />
-            {/* <Player /> */}
-          {/* </div> */}
+            <Player />
+          </div>
         </div>
       </main>
     </BrowserRouter>
