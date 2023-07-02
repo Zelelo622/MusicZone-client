@@ -6,8 +6,6 @@ import { Context } from "..";
 
 const Login = observer(() => {
   const { user } = useContext(Context);
-  const location = useLocation();
-  const isLogin = location.pathname === LOGIN_ROUTE;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 

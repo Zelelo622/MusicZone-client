@@ -76,7 +76,7 @@ const Player = observer(({ selectTrackId, isPlayingTrack }) => {
   useEffect(() => {
     const savedTrackId = localStorage.getItem("currentTrackId");
 
-    if (savedTrackId) {
+    if (savedTrackId && player.isPlaying) {
       player.setCurrentTrackId(parseInt(savedTrackId, 10));
     }
   }, []);
