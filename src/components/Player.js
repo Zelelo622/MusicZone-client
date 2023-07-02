@@ -75,17 +75,14 @@ const Player = observer(({ selectTrackId, isPlayingTrack }) => {
 
   useEffect(() => {
     const savedTrackId = localStorage.getItem("currentTrackId");
-    const savedIsPlaying = localStorage.getItem("isPlaying");
 
-    if (savedTrackId && savedIsPlaying) {
+    if (savedTrackId) {
       player.setCurrentTrackId(parseInt(savedTrackId, 10));
-      player.setIsPlaying(savedIsPlaying === "true");
     }
   }, []);
 
   useEffect(() => {
     localStorage.setItem("currentTrackId", player.currentTrackId.toString());
-    localStorage.setItem("isPlaying", player.isPlaying.toString());
   }, [player.currentTrackId, player.isPlaying]);
 
   useEffect(() => {
