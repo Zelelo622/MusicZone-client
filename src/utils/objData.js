@@ -45,6 +45,7 @@ export const music = [
     artist: "Кино",
     imgPath: AlbomPng,
     soundPath: track1,
+    playlists: [1]
   },
   {
     id: 2,
@@ -52,6 +53,7 @@ export const music = [
     artist: "Кино",
     imgPath: AlbomPng,
     soundPath: track2,
+    playlists: [1, 4]
   },
   {
     id: 3,
@@ -59,5 +61,6 @@ export const music = [
     artist: "Кино",
     imgPath: AlbomPng,
     soundPath: track3,
+    playlists: [1, 2]
   },
 ];

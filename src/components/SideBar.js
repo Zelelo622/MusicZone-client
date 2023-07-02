@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../assets/style/SideBar.css";
 import Logo from "../assets/img/logo.svg";
-import { ALL_MUSIC_ROUTE, HOME_ROUTE } from "../utils/consts";
+import { ALL_MUSIC_ROUTE, HOME_ROUTE, PLAYLIST_ROUTE } from "../utils/consts";
 import { Link, useLocation } from "react-router-dom";
 import { playlists } from "../utils/objData";
 
@@ -55,12 +55,17 @@ function SideBar() {
           <h3 className="sidebar__content-title">Мои плейлисты</h3>
           <ul className="sidebar__list">
             {playlists.map((playlists) => (
-              <li className="sidebar__item-border sidebar__item" key={playlists.id}>
+              <li
+                className="sidebar__item-border sidebar__item"
+                key={playlists.id}
+              >
                 <Link
                   className={`link ${
-                    activeLink === `playlist ${playlists.id}` ? "is-active-link" : ""
+                    activeLink === `playlist ${playlists.id}`
+                      ? "is-active-link"
+                      : ""
                   }`}
-                  to={ALL_MUSIC_ROUTE}
+                  to={PLAYLIST_ROUTE + `/${playlists.title}`}
                   onClick={() => handleLinkClick(`playlist ${playlists.id}`)}
                 >
                   {playlists.title}
