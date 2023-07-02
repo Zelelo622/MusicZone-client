@@ -8,32 +8,44 @@ import track3 from "../assets/music/Спокойная ночь.mp3";
 export const playlists = [
   {
     id: 1,
-    title: "Любимое",
+    name: "Любимое",
+    description: "",
+    nickname: "",
     imgPath: PlaylistPng,
   },
   {
     id: 2,
-    title: "Рок-хиты",
+    name: "Рок-хиты",
+    description: "",
+    nickname: "",
     imgPath: PlaylistPng,
   },
   {
     id: 3,
-    title: "Поп-хиты",
+    name: "Поп-хиты",
+    description: "",
+    nickname: "",
     imgPath: PlaylistPng,
   },
   {
     id: 4,
-    title: "Инди-хиты",
+    name: "Инди-хиты",
+    description: "",
+    nickname: "",
     imgPath: PlaylistPng,
   },
   {
     id: 5,
-    title: "Хип-хоп-хиты",
+    name: "Хип-хоп-хиты",
+    description: "",
+    nickname: "",
     imgPath: PlaylistPng,
   },
   {
     id: 6,
-    title: "Шансон-хиты",
+    name: "Шансон-хиты",
+    description: "",
+    nickname: "",
     imgPath: PlaylistPng,
   },
 ];
@@ -41,26 +53,26 @@ export const playlists = [
 export const music = [
   {
     id: 1,
-    title: "Завтра война",
+    name: "Завтра война",
     artist: "Кино",
     imgPath: AlbomPng,
     soundPath: track1,
-    playlists: [1]
+    playlists: [1],
   },
   {
     id: 2,
-    title: "Дерево",
+    name: "Дерево",
     artist: "Кино",
     imgPath: AlbomPng,
     soundPath: track2,
-    playlists: [1, 4]
+    playlists: [1, 4],
   },
   {
     id: 3,
-    title: "Спокойная ночь",
+    name: "Спокойная ночь",
     artist: "Кино",
     imgPath: AlbomPng,
     soundPath: track3,
-    playlists: [1, 2]
+    playlists: [1, 2],
   },
 ];

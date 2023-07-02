@@ -14,7 +14,7 @@ const MusicList = observer(() => {
   let arrMusic;
   let playlistMusic;
   if (name) {
-    const playlist = playlists.find((item) => item.title === name);
+    const playlist = playlists.find((item) => item.name === name);
     playlistMusic = music.filter((item) => item.playlists.includes(playlist.id));
     arrMusic = playlistMusic;
   } else {
@@ -44,7 +44,7 @@ const MusicList = observer(() => {
                   </Link>{" "}
                   <span className="music__title-span">-</span>
                   <Link className="music__name-link" to="#">
-                    {music.title}
+                    {music.name}
                   </Link>
                 </div>
               </div>
