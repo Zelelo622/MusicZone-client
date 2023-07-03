@@ -1,11 +1,12 @@
 import { observer } from "mobx-react-lite";
 import React, { useContext, useState } from "react";
 import { Context } from "..";
-import { Link, useLocation } from "react-router-dom";
-import { LOGIN_ROUTE } from "../utils/consts";
+import { Link, useNavigate } from "react-router-dom";
+import { HOME_ROUTE, LOGIN_ROUTE } from "../utils/consts";
 
 const Registration = observer(() => {
   const { user } = useContext(Context);
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [nick, setNick] = useState("");
@@ -15,6 +16,7 @@ const Registration = observer(() => {
 
   const click = () => {
     user.setIsAuth(true);
+    navigate(HOME_ROUTE);
   };
 
   return (

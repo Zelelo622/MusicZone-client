@@ -1,16 +1,18 @@
 import React, { useContext, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { LOGIN_ROUTE, REGISTRATION_ROUTE } from "../utils/consts";
+import { Link, useNavigate } from "react-router-dom";
+import { HOME_ROUTE, REGISTRATION_ROUTE } from "../utils/consts";
 import { observer } from "mobx-react-lite";
 import { Context } from "..";
 
 const Login = observer(() => {
   const { user } = useContext(Context);
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const click = () => {
     user.setIsAuth(true);
+    navigate(HOME_ROUTE);
   };
 
   return (

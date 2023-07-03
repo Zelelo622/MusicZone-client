@@ -13,10 +13,6 @@ import ProfilePage from "./pages/ProfilePage";
 
 export const publicRoutes = [
   {
-    path: HOME_ROUTE,
-    Component: HomePage,
-  },
-  {
     path: LOGIN_ROUTE,
     Component: AuthPage,
   },
@@ -27,6 +23,13 @@ export const publicRoutes = [
   {
     path: ALL_MUSIC_ROUTE,
     Component: AllMusicPage,
+  },
+];
+
+export const authRoutes = [
+  {
+    path: HOME_ROUTE,
+    Component: HomePage,
   },
   {
     path: PROFILE_ROUTE,
