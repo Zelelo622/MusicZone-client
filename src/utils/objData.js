@@ -76,3 +76,12 @@ export const music = [
     playlists: [1, 2],
   },
 ];
+
+export const user = {
+  name: "Егор",
+  surname: "Кирин",
+  nickname: "Zelelo",
+  phone: "88008008080",
+  email: "egorcom27@gmail.com",
+  password: "qwerty",
+};
