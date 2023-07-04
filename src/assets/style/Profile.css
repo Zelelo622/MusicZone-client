@@ -1,0 +1,58 @@
+.profile {
+  margin-top: 32px;
+  margin-left: 32px;
+}
+
+.profile__container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 58px;
+}
+
+.profile__img {
+  font-weight: 700;
+}
+
+.profile__info {
+  margin-left: 40px;
+}
+
+.profile__name {
+  color: #fff;
+  font-size: 24px;
+}
+
+.profile__nick {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 20px;
+}
+
+.profile__btns {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.profile__btn {
+  margin-bottom: 28px;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  font-size: 20px;
+  font-weight: 700;
+  transition: all 0.1s;
+}
+.profile__btn:last-child {
+  margin-bottom: 0;
+}
+.profile__btn:hover {
+  opacity: 0.7;
+}
+
+.profile__btn-grey {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.profile__btn-red {
+  color: rgba(255, 0, 0, 0.65);
+}
