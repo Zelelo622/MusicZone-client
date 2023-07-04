@@ -56,3 +56,46 @@
 .profile__btn-red {
   color: rgba(255, 0, 0, 0.65);
 }
+
+.profile__modal {
+}
+
+.modal-content {
+  border-radius: 15px;
+  background: #212124;
+}
+
+.profile__modal-body {
+}
+
+.profile__modal-group {
+  margin-bottom: 26px;
+}
+.profile__modal-group:last-child {
+  margin-bottom: 0;
+}
+
+.profile__modal-label {
+  margin-bottom: 8px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.profile__modal-input {
+  font-size: 16px;
+  font-weight: 400;
+  padding: 6px 12px;
+  width: 440px;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  border: 1px solid var(--gray-400, #ced4da);
+  background: var(--gray-white, #fff);
+}
+
+.profile__modal-footer {
+}
+
+.profile__modal-btn {
+}
