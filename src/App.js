@@ -1,32 +1,31 @@
 import "./assets/style/App.css";
-import { BrowserRouter } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import AppRouter from "./components/AppRouter";
 import SideBar from "./components/SideBar";
 import Player from "./components/Player";
-import { observer } from "mobx-react-lite";
-import { useContext } from "react";
-import { Context } from ".";
+import { LOGIN_ROUTE, REGISTRATION_ROUTE } from "./utils/consts";
 
-const App = observer(() => {
-  const { user } = useContext(Context);
+const App = () => {
+  const location = useLocation();
+  const isLogin = location.pathname === LOGIN_ROUTE;
+  const isRegistration = location.pathname === REGISTRATION_ROUTE;
 
   return (
-    <BrowserRouter>
+    
       <main className="main">
         <div className="container">
-          {/* {user.isAuth ? ( */}
-            <div className="main__content">
-              <SideBar />
-              <AppRouter />
-              <Player />
-            </div>
-          {/* ) : ( */}
-            {/* <AppRouter /> */}
-          {/* )} */}
+          <div
+            className={`main__content ${
+              isLogin || isRegistration ? "block" : ""
+            }`}
+          >
+            <SideBar />
+            <AppRouter />
+            <Player />
+          </div>
         </div>
       </main>
-    </BrowserRouter>
   );
-});
+};
 
 export default App;

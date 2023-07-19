@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import PlayerStore from "./store/PlayerStore";
 import UserStore from "./store/UserStore";
+import { BrowserRouter } from "react-router-dom";
 
 export const Context = createContext(null);
 
@@ -17,7 +18,9 @@ root.render(
     }}
   >
     <React.StrictMode>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </React.StrictMode>
   </Context.Provider>
 );

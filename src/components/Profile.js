@@ -1,14 +1,24 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import AvatarPng from "../assets/img/avatar.png";
 import "../assets/style/Profile.css";
-import { user } from "../utils/objData";
 import ProfileModal from "./modal/ProfileModal";
+import { observer } from "mobx-react-lite";
+import { Context } from "..";
+import { useNavigate } from "react-router-dom";
+import { HOME_ROUTE } from "../utils/consts";
 
-const Profile = () => {
+const Profile = observer(() => {
+  const { user } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   const handleShowModal = () => {
     setShowModal(true);
+  };
+
+  const exit = () => {
+    user.setIsAuth(false);
+    navigate(HOME_ROUTE);
   };
 
   return (
@@ -30,13 +40,15 @@ const Profile = () => {
           >
             Редактировать профиль
           </button>
-          <button className="profile__btn profile__btn-red">Выйти</button>
+          <button onClick={exit} className="profile__btn profile__btn-red">
+            Выйти
+          </button>
         </div>
       </div>
 
       <ProfileModal showModal={showModal} onHide={() => setShowModal(false)} />
     </>
   );
-};
+});
 
 export default Profile;

@@ -10,7 +10,8 @@ const Login = observer(() => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const click = () => {
+  const click = (e) => {
+    e.preventDefault();
     user.setIsAuth(true);
     navigate(HOME_ROUTE);
   };
@@ -19,7 +20,7 @@ const Login = observer(() => {
     <div className="auth__container">
       <form className="auth__form">
         <div className="auth__group">
-          <label className="auth__label" for="email">
+          <label className="auth__label" htmlFor="email">
             Почта
           </label>
           <input
@@ -27,11 +28,12 @@ const Login = observer(() => {
             type="email"
             placeholder="Почта"
             id="email"
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="auth__group">
-          <label className="auth__label" for="password">
+          <label className="auth__label" htmlFor="password">
             Пароль
           </label>
           <input
@@ -39,6 +41,7 @@ const Login = observer(() => {
             type="password"
             placeholder="Пароль"
             id="password"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>

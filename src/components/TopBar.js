@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import "../assets/style/TopBar.css";
 import SearchBtn from "../assets/img/search.svg";
 import { useLocation, useNavigate } from "react-router-dom";
-import { LOGIN_ROUTE, REGISTRATION_ROUTE } from "../utils/consts";
+import {
+  LOGIN_ROUTE,
+  PROFILE_ROUTE,
+  REGISTRATION_ROUTE,
+} from "../utils/consts";
+import { Context } from "..";
+import { observer } from "mobx-react-lite";
 
-function TopBar() {
+const TopBar = observer(() => {
+  const { user } = useContext(Context);
   const navigate = useNavigate();
   const location = useLocation();
   const isLogin = location.pathname === LOGIN_ROUTE;
   const isRegistration = location.pathname === REGISTRATION_ROUTE;
+  const isAuth = user.isAuth;
 
   if (isLogin || isRegistration) {
     return null;
@@ -19,8 +27,12 @@ function TopBar() {
   };
 
   const registration = () => {
-    navigate(REGISTRATION_ROUTE)
-  }
+    navigate(REGISTRATION_ROUTE);
+  };
+
+  const profile = () => {
+    navigate(PROFILE_ROUTE);
+  };
 
   return (
     <>
@@ -36,14 +48,29 @@ function TopBar() {
           </button>
         </div>
         <div className="topbar__btns">
-          <button className="topbar__btn" onClick={login}>Войти</button>
-          <button className="topbar__btn topbar__btn-border" onClick={registration}>
-            Зарегистрироваться
-          </button>
+          {isAuth ? (
+            <>
+              <button className="topbar__btn topbar__btn-border" onClick={profile}>
+                Профиль
+              </button>
+            </>
+          ) : (
+            <>
+              <button className="topbar__btn" onClick={login}>
+                Войти
+              </button>
+              <button
+                className="topbar__btn topbar__btn-border"
+                onClick={registration}
+              >
+                Зарегистрироваться
+              </button>
+            </>
+          )}
         </div>
       </nav>
     </>
   );
-}
+});
 
 export default TopBar;

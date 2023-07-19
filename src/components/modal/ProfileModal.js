@@ -1,14 +1,8 @@
 import { Button, Modal } from "react-bootstrap";
-import React, { useState } from "react";
+import React from "react";
 import { user } from "../../utils/objData";
 
 const ProfileModal = ({ showModal, onHide }) => {
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [nick, setNick] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   const handleCloseModal = () => {
     onHide();
@@ -18,7 +12,7 @@ const ProfileModal = ({ showModal, onHide }) => {
     <Modal show={showModal} onHide={handleCloseModal} className="profile__modal">
       <Modal.Body className="profile__modal-body">
         <div className="profile__modal-group">
-          <label className="profile__modal-label" for="name">
+          <label className="profile__modal-label" htmlFor="name">
             Имя
           </label>
           <input
@@ -27,11 +21,11 @@ const ProfileModal = ({ showModal, onHide }) => {
             placeholder="Имя"
             id="name"
             value={user.name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={() => {}}
           />
         </div>
         <div className="profile__modal-group">
-          <label className="profile__modal-abel" for="surname">
+          <label className="profile__modal-abel" htmlFor="surname">
             Фамилия
           </label>
           <input
@@ -40,11 +34,11 @@ const ProfileModal = ({ showModal, onHide }) => {
             placeholder="Фамилия"
             id="surname"
             value={user.surname}
-            onChange={(e) => setSurname(e.target.value)}
+            onChange={() => {}}
           />
         </div>
         <div className="profile__modal-group">
-          <label className="profile__modal-label" for="nick">
+          <label className="profile__modal-label" htmlFor="nick">
             Никнейм
           </label>
           <input
@@ -53,11 +47,11 @@ const ProfileModal = ({ showModal, onHide }) => {
             placeholder="Никнейм"
             id="nick"
             value={user.nickname}
-            onChange={(e) => setNick(e.target.value)}
+            onChange={() => {}}
           />
         </div>
         <div className="profile__modal-group">
-          <label className="profile__modal-label" for="phone">
+          <label className="profile__modal-label" htmlFor="phone">
             Телефон
           </label>
           <input
@@ -66,11 +60,11 @@ const ProfileModal = ({ showModal, onHide }) => {
             placeholder="Телефон"
             id="phone"
             value={user.phone}
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={() => {}}
           />
         </div>
         <div className="profile__modal-group">
-          <label className="profile__modal-label" for="email">
+          <label className="profile__modal-label" htmlFor="email">
             Почта
           </label>
           <input
@@ -79,13 +73,13 @@ const ProfileModal = ({ showModal, onHide }) => {
             placeholder="Почта"
             id="email"
             value={user.email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={() => {}}
           />
         </div>
       </Modal.Body>
       <Modal.Footer className="profile__modal-footer">
         <Button className="profile__modal-btn" onClick={handleCloseModal} variant="secondary">Закрыть</Button>
-        <Button className="profile__modal-btn" variant="primary">Сохранить</Button>
+        <Button className="profile__modal-btn" variant="primary" onClick={handleCloseModal}>Сохранить</Button>
       </Modal.Footer>
     </Modal>
   );

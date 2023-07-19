@@ -1,13 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import "../assets/style/Player.css";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { IconContext } from "react-icons";
 import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
 import { AiFillPlayCircle, AiFillPauseCircle } from "react-icons/ai";
 import { music } from "../utils/objData";
 import { observer } from "mobx-react-lite";
 import { Context } from "..";
-import { LOGIN_ROUTE, REGISTRATION_ROUTE } from "../utils/consts";
 
 const Player = observer(({ selectTrackId, isPlayingTrack }) => {
   const { player } = useContext(Context);
@@ -20,14 +19,6 @@ const Player = observer(({ selectTrackId, isPlayingTrack }) => {
   const [isMuted, setIsMuted] = useState(false);
   const [previousVolume, setPreviousVolume] = useState(1);
   const [isLoaded, setIsLoaded] = useState(false);
-  const location = useLocation();
-  const isLogin = location.pathname === LOGIN_ROUTE;
-  const isRegistration = location.pathname === REGISTRATION_ROUTE;
-
-  if (isLogin || isRegistration) {
-    return null;
-  }
-
 
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);

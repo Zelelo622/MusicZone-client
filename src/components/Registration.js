@@ -23,7 +23,7 @@ const Registration = observer(() => {
     <div className="auth__container">
       <form className="auth__form">
         <div className="auth__group">
-          <label className="auth__label" for="name">
+          <label className="auth__label" htmlFor="name">
             Имя
           </label>
           <input
@@ -31,11 +31,12 @@ const Registration = observer(() => {
             type="text"
             placeholder="Имя"
             id="name"
+            value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </div>
         <div className="auth__group">
-          <label className="auth__label" for="surname">
+          <label className="auth__label" htmlFor="surname">
             Фамилия
           </label>
           <input
@@ -43,11 +44,12 @@ const Registration = observer(() => {
             type="text"
             placeholder="Фамилия"
             id="surname"
+            value={surname}
             onChange={(e) => setSurname(e.target.value)}
           />
         </div>
         <div className="auth__group">
-          <label className="auth__label" for="nick">
+          <label className="auth__label" htmlFor="nick">
             Никнейм
           </label>
           <input
@@ -55,11 +57,12 @@ const Registration = observer(() => {
             type="text"
             placeholder="Никнейм"
             id="nick"
+            value={nick}
             onChange={(e) => setNick(e.target.value)}
           />
         </div>
         <div className="auth__group">
-          <label className="auth__label" for="phone">
+          <label className="auth__label" htmlFor="phone">
             Телефон
           </label>
           <input
@@ -67,11 +70,12 @@ const Registration = observer(() => {
             type="tel"
             placeholder="Телефон"
             id="phone"
+            value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
         </div>
         <div className="auth__group">
-          <label className="auth__label" for="email">
+          <label className="auth__label" htmlFor="email">
             Почта
           </label>
           <input
@@ -79,11 +83,12 @@ const Registration = observer(() => {
             type="email"
             placeholder="Почта"
             id="email"
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="auth__group">
-          <label className="auth__label" for="password">
+          <label className="auth__label" htmlFor="password">
             Пароль
           </label>
           <input
@@ -91,6 +96,7 @@ const Registration = observer(() => {
             type="password"
             placeholder="Пароль"
             id="password"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
