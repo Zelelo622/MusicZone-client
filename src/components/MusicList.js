@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { music, playlists } from "../utils/objData";
 import "../assets/style/MusicList.css";
 import { Link, useParams } from "react-router-dom";
@@ -8,14 +8,22 @@ import { observer } from "mobx-react-lite";
 import { Context } from "..";
 
 const MusicList = observer(() => {
-  const { player } = useContext(Context);
+  const { player, playlist } = useContext(Context);
   const { name } = useParams();
-  
+
   let arrMusic;
   let playlistMusic;
   if (name) {
-    const playlist = playlists.find((item) => item.name === name);
-    playlistMusic = music.filter((item) => item.playlists.includes(playlist.id));
+    const currentPlaylist = playlists.find((item) => item.name === name);
+    if (currentPlaylist.name === "Любимое") {
+      playlistMusic = music.filter((item) =>
+        playlist.favoritePlaylist.includes(item.id)
+      );
+    } else {
+      playlistMusic = music.filter((item) =>
+        item.playlists.includes(currentPlaylist.id)
+      );
+    }
     arrMusic = playlistMusic;
   } else {
     arrMusic = music;

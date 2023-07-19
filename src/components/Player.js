@@ -9,9 +9,8 @@ import { observer } from "mobx-react-lite";
 import { Context } from "..";
 
 const Player = observer(({ selectTrackId, isPlayingTrack }) => {
-  const { player } = useContext(Context);
+  const { player, playlist } = useContext(Context);
   const [duration, setDuration] = useState(0);
-  const [isFavorite, setIsFavorite] = useState(false);
   const [volume, setVolume] = useState(() => {
     const savedVolume = localStorage.getItem("volume");
     return savedVolume ? parseFloat(savedVolume) : 1;
@@ -19,10 +18,6 @@ const Player = observer(({ selectTrackId, isPlayingTrack }) => {
   const [isMuted, setIsMuted] = useState(false);
   const [previousVolume, setPreviousVolume] = useState(1);
   const [isLoaded, setIsLoaded] = useState(false);
-
-  const toggleFavorite = () => {
-    setIsFavorite(!isFavorite);
-  };
 
   useEffect(() => {
     localStorage.setItem("volume", volume.toString());
@@ -169,6 +164,16 @@ const Player = observer(({ selectTrackId, isPlayingTrack }) => {
   );
   const currentTrack = music[currentTrackIndex];
 
+  const handleToggleFavorite = (trackId) => {
+    if (playlist.favoritePlaylist.includes(trackId)) {
+      playlist.removeFromFavoritePlaylist(trackId);
+      console.log(playlist.favoritePlaylist);
+    } else {
+      playlist.addFavoritePlaylist(trackId);
+      console.log(playlist.favoritePlaylist);
+    }
+  };
+
   return (
     <>
       <div className="player">
@@ -236,9 +241,11 @@ const Player = observer(({ selectTrackId, isPlayingTrack }) => {
         <div className="player__settings">
           <button
             className={`player__settings-btn ${
-              isFavorite ? "player__settings-like" : "player__settings-fav"
+              playlist.favoritePlaylist.includes(currentTrack.id)
+                ? "player__settings-like"
+                : "player__settings-fav"
             }`}
-            onClick={toggleFavorite}
+            onClick={() => handleToggleFavorite(currentTrack.id)}
           ></button>
 
           <button

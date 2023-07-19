@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import PlayerStore from "./store/PlayerStore";
 import UserStore from "./store/UserStore";
 import { BrowserRouter } from "react-router-dom";
+import PlaylistStore from "./store/PlaylistStore";
 
 export const Context = createContext(null);
 
@@ -15,6 +16,7 @@ root.render(
     value={{
       user: new UserStore(),
       player: new PlayerStore(),
+      playlist: new PlaylistStore(),
     }}
   >
     <React.StrictMode>
