@@ -1,15 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
 import "../assets/style/Player.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { IconContext } from "react-icons";
 import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
 import { AiFillPlayCircle, AiFillPauseCircle } from "react-icons/ai";
 import { music } from "../utils/objData";
 import { observer } from "mobx-react-lite";
 import { Context } from "..";
+import AuthModal from "./modal/AuthModal";
+import { LOGIN_ROUTE, REGISTRATION_ROUTE } from "../utils/consts";
 
 const Player = observer(({ selectTrackId, isPlayingTrack }) => {
-  const { player, playlist } = useContext(Context);
+  const { player, playlist, user } = useContext(Context);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(() => {
     const savedVolume = localStorage.getItem("volume");
@@ -18,6 +20,14 @@ const Player = observer(({ selectTrackId, isPlayingTrack }) => {
   const [isMuted, setIsMuted] = useState(false);
   const [previousVolume, setPreviousVolume] = useState(1);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const location = useLocation();
+  const isLogin = location.pathname === LOGIN_ROUTE;
+  const isRegistration = location.pathname === REGISTRATION_ROUTE;
+
+  const handleCloseModal = () => setShowModal(false);
+
+  const handleShowModal = () => setShowModal(true);
 
   useEffect(() => {
     localStorage.setItem("volume", volume.toString());
@@ -239,14 +249,21 @@ const Player = observer(({ selectTrackId, isPlayingTrack }) => {
           </div>
         </div>
         <div className="player__settings">
-          <button
-            className={`player__settings-btn ${
-              playlist.favoritePlaylist.includes(currentTrack.id)
-                ? "player__settings-like"
-                : "player__settings-fav"
-            }`}
-            onClick={() => handleToggleFavorite(currentTrack.id)}
-          ></button>
+          {user.isAuth ? (
+            <button
+              className={`player__settings-btn ${
+                playlist.favoritePlaylist.includes(currentTrack.id)
+                  ? "player__settings-like"
+                  : "player__settings-fav"
+              }`}
+              onClick={() => handleToggleFavorite(currentTrack.id)}
+            ></button>
+          ) : (
+            <button
+              className={"player__settings-btn player__settings-fav"}
+              onClick={() => handleShowModal()}
+            ></button>
+          )}
 
           <button
             className="player__settings-btn player__settings-vol"
@@ -265,6 +282,8 @@ const Player = observer(({ selectTrackId, isPlayingTrack }) => {
             />
           </div>
         </div>
+
+        <AuthModal showModal={showModal} handleClose={handleCloseModal} />
       </div>
       <audio id="audio" src={currentTrack.soundPath} autoPlay />
     </>

@@ -11,20 +11,19 @@ const App = () => {
   const isRegistration = location.pathname === REGISTRATION_ROUTE;
 
   return (
-    
-      <main className="main">
-        <div className="container">
-          <div
-            className={`main__content ${
-              isLogin || isRegistration ? "block" : ""
-            }`}
-          >
-            <SideBar />
-            <AppRouter />
-            <Player />
-          </div>
+    <main className="main">
+      <div className="container">
+        <div
+          className={`main__content ${
+            isLogin || isRegistration ? "block" : ""
+          }`}
+        >
+          <SideBar />
+          <AppRouter />
+          {isLogin || isRegistration ? null : <Player />}
         </div>
-      </main>
+      </div>
+    </main>
   );
 };
 

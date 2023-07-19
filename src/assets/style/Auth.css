@@ -63,3 +63,29 @@
   border-radius: 500px;
   background: rgba(30, 215, 96, 0.71);
 }
+
+.modal-auth__title {
+  color: #fff;
+  font-size: 24px;
+  text-align: center;
+}
+
+.modal-auth__btn {
+  border: 1px solid #878787;
+  border-radius: 5px;
+  padding: 6px;
+}
+
+.modal-auth__btn-reg {
+  transition: all 0.2s;
+}
+.modal-auth__btn-reg:hover {
+  background-color: #878787;
+}
+
+.modal-auth__btn-log {
+  transition: all 0.2s;
+}
+.modal-auth__btn-log:hover {
+  background-color: #444444;
+}
