@@ -1,11 +1,18 @@
 import React from "react";
 import "../assets/style/TopBar.css";
 import SearchBtn from "../assets/img/search.svg";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { LOGIN_ROUTE, REGISTRATION_ROUTE } from "../utils/consts";
 
 function TopBar() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isLogin = location.pathname === LOGIN_ROUTE;
+  const isRegistration = location.pathname === REGISTRATION_ROUTE;
+
+  if (isLogin || isRegistration) {
+    return null;
+  }
 
   const login = () => {
     navigate(LOGIN_ROUTE);

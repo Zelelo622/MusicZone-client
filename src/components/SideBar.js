@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import "../assets/style/SideBar.css";
 import Logo from "../assets/img/logo.svg";
-import { ALL_MUSIC_ROUTE, HOME_ROUTE, PLAYLIST_ROUTE } from "../utils/consts";
+import { ALL_MUSIC_ROUTE, HOME_ROUTE, LOGIN_ROUTE, PLAYLIST_ROUTE, REGISTRATION_ROUTE } from "../utils/consts";
 import { Link, useLocation } from "react-router-dom";
 import { playlists } from "../utils/objData";
 
 function SideBar() {
   const location = useLocation();
   const [activeLink, setActiveLink] = useState(location.pathname);
+  const isLogin = location.pathname === LOGIN_ROUTE;
+  const isRegistration = location.pathname === REGISTRATION_ROUTE;
+
+  if (isLogin || isRegistration) {
+    return null;
+  }
 
   const handleLinkClick = (link) => {
     setActiveLink(link);
