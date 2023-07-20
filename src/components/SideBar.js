@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import "../assets/style/SideBar.css";
 import Logo from "../assets/img/logo.svg";
-import { ALL_MUSIC_ROUTE, HOME_ROUTE, LOGIN_ROUTE, PLAYLIST_ROUTE, REGISTRATION_ROUTE } from "../utils/consts";
+import {
+  ALL_MUSIC_ROUTE,
+  HOME_ROUTE,
+  LOGIN_ROUTE,
+  REGISTRATION_ROUTE,
+} from "../utils/consts";
 import { Link, useLocation } from "react-router-dom";
 import { playlists } from "../utils/objData";
+import { observer } from "mobx-react-lite";
+import PlaylistLink from "./PlaylistLink";
 
-function SideBar() {
+const SideBar = observer(() => {
   const location = useLocation();
   const [activeLink, setActiveLink] = useState(location.pathname);
   const isLogin = location.pathname === LOGIN_ROUTE;
@@ -17,6 +24,11 @@ function SideBar() {
 
   const handleLinkClick = (link) => {
     setActiveLink(link);
+    console.log("handleLinkClick", link);
+  };
+
+  const isPlaylistActive = (playlistId) => {
+    return activeLink === `playlist ${playlistId}`;
   };
 
   return (
@@ -60,22 +72,18 @@ function SideBar() {
         <div className="sidebar__content">
           <h3 className="sidebar__content-title">Мои плейлисты</h3>
           <ul className="sidebar__list">
-            {playlists.map((playlists) => (
+            {playlists.map((playlist) => (
               <li
                 className="sidebar__item-border sidebar__item"
-                key={playlists.id}
+                key={playlist.id}
               >
-                <Link
-                  className={`link ${
-                    activeLink === `playlist ${playlists.id}`
-                      ? "is-active-link"
-                      : ""
-                  }`}
-                  to={PLAYLIST_ROUTE + `/${playlists.name}`}
-                  onClick={() => handleLinkClick(`playlist ${playlists.id}`)}
+                <PlaylistLink
+                  playlistProp={playlist}
+                  isActive={isPlaylistActive}
+                  handlePlaylistClickProp={handleLinkClick}
                 >
-                  {playlists.name}
-                </Link>
+                  {playlist.name}
+                </PlaylistLink>
               </li>
             ))}
           </ul>
@@ -83,6 +91,6 @@ function SideBar() {
       </nav>
     </>
   );
-}
+});
 
 export default SideBar;

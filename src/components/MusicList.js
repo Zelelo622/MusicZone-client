@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { music, playlists } from "../utils/objData";
 import "../assets/style/MusicList.css";
 import { Link, useParams } from "react-router-dom";
@@ -30,6 +30,21 @@ const MusicList = observer(() => {
   }
 
   const handlePlayPause = (index) => {
+    if (playlist.currentPlaylistId === 1) {
+      let playlistMusic;
+      const currentPlaylist = playlists.find((item) => item.name === "Любимое");
+      if (currentPlaylist.name === "Любимое") {
+        playlistMusic = music.filter((item) =>
+          playlist.favoritePlaylist.includes(item.id)
+        );
+
+        playlist.setCurrentPlaylistTracks(playlistMusic);
+      } else {
+        playlist.setCurrentPlaylistId(null);
+      }
+    } else {
+      playlist.setCurrentPlaylistTracks(music);
+    }
     if (player.currentTrackId === index) {
       player.setIsPlaying(!player.isPlaying);
     } else {

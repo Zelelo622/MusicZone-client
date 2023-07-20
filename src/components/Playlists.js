@@ -1,17 +1,16 @@
 import React from "react";
 import "../assets/style/Playlist.css";
-import { Link } from "react-router-dom";
 import { playlists } from "../utils/objData";
-import { PLAYLIST_ROUTE } from "../utils/consts";
+import { observer } from "mobx-react-lite";
+import PlaylistLink from "./PlaylistLink";
 
-function Playlists() {
-
+const Playlists = observer(() => {
   return (
     <>
       <div className="playlists">
         <div className="playlists__list">
           {playlists.map((playlist) => (
-            <Link to={PLAYLIST_ROUTE + `/${playlist.name}`} key={playlist.id}>
+            <PlaylistLink key={playlist.id} playlistProp={playlist}>
               <div className="playlists__item">
                 <img
                   className="playlists__img"
@@ -20,12 +19,12 @@ function Playlists() {
                 />
                 <h3 className="playlists__title">{playlist.name}</h3>
               </div>
-            </Link>
+            </PlaylistLink>
           ))}
         </div>
       </div>
     </>
   );
-}
+});
 
 export default Playlists;

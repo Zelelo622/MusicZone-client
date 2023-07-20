@@ -4,11 +4,10 @@ import { Link, useLocation } from "react-router-dom";
 import { IconContext } from "react-icons";
 import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
 import { AiFillPlayCircle, AiFillPauseCircle } from "react-icons/ai";
-import { music } from "../utils/objData";
+import { music, playlists } from "../utils/objData";
 import { observer } from "mobx-react-lite";
 import { Context } from "..";
 import AuthModal from "./modal/AuthModal";
-import { LOGIN_ROUTE, REGISTRATION_ROUTE } from "../utils/consts";
 
 const Player = observer(({ selectTrackId, isPlayingTrack }) => {
   const { player, playlist, user } = useContext(Context);
@@ -22,8 +21,6 @@ const Player = observer(({ selectTrackId, isPlayingTrack }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const location = useLocation();
-  const isLogin = location.pathname === LOGIN_ROUTE;
-  const isRegistration = location.pathname === REGISTRATION_ROUTE;
 
   const handleCloseModal = () => setShowModal(false);
 
@@ -117,22 +114,25 @@ const Player = observer(({ selectTrackId, isPlayingTrack }) => {
   };
 
   const playNextTrack = () => {
-    const currentIndex = music.findIndex(
+    const currentIndex = playlist.currentPlaylistTracks.findIndex(
       (track) => track.id === player.currentTrackId
     );
-    const nextIndex = currentIndex === music.length - 1 ? 0 : currentIndex + 1;
-    const nextTrackId = music[nextIndex].id;
+
+    const nextIndex =
+      currentIndex === playlist.currentPlaylistTracks.length - 1 ? 0 : currentIndex + 1;
+    const nextTrackId = playlist.currentPlaylistTracks[nextIndex].id;
+
     player.setCurrentTrackId(nextTrackId);
     player.setIsPlaying(true);
   };
 
   const playPreviousTrack = () => {
-    const currentIndex = music.findIndex(
+    const currentIndex = playlist.currentPlaylistTracks.findIndex(
       (track) => track.id === player.currentTrackId
     );
     const previousIndex =
-      currentIndex === 0 ? music.length - 1 : currentIndex - 1;
-    const previousTrackId = music[previousIndex].id;
+      currentIndex === 0 ? playlist.currentPlaylistTracks.length - 1 : currentIndex - 1;
+    const previousTrackId = playlist.currentPlaylistTracks[previousIndex].id;
     player.setCurrentTrackId(previousTrackId);
     player.setIsPlaying(true);
   };
@@ -183,6 +183,8 @@ const Player = observer(({ selectTrackId, isPlayingTrack }) => {
       console.log(playlist.favoritePlaylist);
     }
   };
+
+  console.log(playlist.currentPlaylist);
 
   return (
     <>
