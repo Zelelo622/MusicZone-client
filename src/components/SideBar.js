@@ -24,7 +24,6 @@ const SideBar = observer(() => {
 
   const handleLinkClick = (link) => {
     setActiveLink(link);
-    console.log("handleLinkClick", link);
   };
 
   const isPlaylistActive = (playlistId) => {

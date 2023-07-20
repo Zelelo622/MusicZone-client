@@ -1,15 +1,17 @@
 import React, { useContext, useState } from "react";
 import { music, playlists } from "../utils/objData";
 import "../assets/style/MusicList.css";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import PlayMusicSvg from "../assets/img/play-music.svg";
 import PauseMusicSvg from "../assets/img/pause-music.svg";
 import { observer } from "mobx-react-lite";
 import { Context } from "..";
+import { PLAYLIST_ROUTE } from "../utils/consts";
 
 const MusicList = observer(() => {
   const { player, playlist } = useContext(Context);
   const { name } = useParams();
+  const location = useLocation();
 
   let arrMusic;
   let playlistMusic;
@@ -33,14 +35,15 @@ const MusicList = observer(() => {
     if (playlist.currentPlaylistId === 1) {
       let playlistMusic;
       const currentPlaylist = playlists.find((item) => item.name === "Любимое");
+      if (location.pathname !== PLAYLIST_ROUTE + "/Любимое") {
+        playlist.setCurrentPlaylistId(null);
+      }
       if (currentPlaylist.name === "Любимое") {
         playlistMusic = music.filter((item) =>
           playlist.favoritePlaylist.includes(item.id)
         );
 
         playlist.setCurrentPlaylistTracks(playlistMusic);
-      } else {
-        playlist.setCurrentPlaylistId(null);
       }
     } else {
       playlist.setCurrentPlaylistTracks(music);
